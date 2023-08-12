@@ -7,7 +7,7 @@ struct node
 }*newnode,*temp;
 
 int search(int pid,int pno,struct node *hashtable[]){
-    temp=hashtable[pid];
+    temp=hashtable[pid-1];
     int count=1;
     while(count!=pno){
         count++;
@@ -18,20 +18,23 @@ int search(int pid,int pno,struct node *hashtable[]){
 
 
 void main(){
-    int n,m,p,pno,fno,offset,pid;
+    int n,m,p,pno,fno,offset,pid,memsize;
     printf("\nEnter the number of processes: ");
     scanf("%d",&n);
+    printf("Enter total size of memory: ");
+    scanf("%d",&memsize);
     printf("Enter the number of frames in the memory: ");
     scanf("%d",&m);
+    int framesize=memsize/m;
     struct node *hashtable[n];
     for(int i=0;i<n;i++){
         hashtable[i]=0;
-        printf("\nEnter the number of pages for procees P%d: ",i);
+        printf("\nEnter the number of pages for procees P%d: ",i+1);
         scanf("%d",&p);
-        printf("\nPage Table for P%d--",i);
+        printf("\n\t\tProcess %d",i+1);
         for(int j=1;j<=p;j++){
             newnode=(struct node *)malloc(sizeof(struct node));
-            printf("\nEnter frame number for page %d(Enter -1 if page not loaded to frame): ",j);
+            printf("\nEnter frameno allocated to page %d(Enter -1 if page not loaded to frame): ",j);
             scanf("%d",&newnode->data);
             newnode->next=0;
             if(hashtable[i]==0)
@@ -52,7 +55,7 @@ void main(){
         if(fno==-1)
             printf("The page was not loaded to memory");
         else
-            printf("The physical address is(frame number,offset): %d,%d",fno,offset);
+            printf("The physical address is %d",(fno-1)*framesize + offset);
     }
 }
 
