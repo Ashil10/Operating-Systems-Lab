@@ -79,6 +79,8 @@ void main(){
             }
             else
                 printf("\nThe system is in UNSAFE STATE");
+            for(int i=0;i<m;i++)
+                work[i]=available[i];
         }
         else if(choice==2){
             int pid,request[m];
@@ -105,15 +107,20 @@ void main(){
                 }
                 if(flag==true){
                     for(int i=0;i<m;i++){
-                        work[i]=available[i];
                         work[i]-=request[i];
                         allocation[pid][i]+=request[i];
                         need[pid][i]-=request[i];
                     }
                     if(bankers(m,n,allocation,need,work,array))
                         printf("\nRequest is immediately GRANTED");
-                    else
+                    else{
                         printf("\nRequest CANNOT be granted immediately according to resource request algorithm..");
+                        for(int i=0;i<m;i++){
+                            work[i]+=request[i];
+                            allocation[pid][i]-=request[i];
+                            need[pid][i]+=request[i];
+                        }
+                    }
                 }
             }
         }
