@@ -3,6 +3,7 @@
 int safeseq[100],seqinx;
 bool flag,change;
 bool bankers(int m,int n,int allocation[n][m],int need[n][m],int work[m],bool array[n]){
+    int copyofwork[m]; for(int i=0;i<m;i++) { copyofwork[i]=work[i]; } //creating a copy of the work to preserve the original content of work
     change=true;
     while(change){
         change=false;
@@ -36,6 +37,7 @@ bool bankers(int m,int n,int allocation[n][m],int need[n][m],int work[m],bool ar
             break;
         }
     }
+    for(int i=0;i<m;i++) { work[i]=copyofwork[i]; } //storing back the original values into work array
     return flag;
 }
 void main(){
@@ -69,7 +71,7 @@ void main(){
         printf("\nEnter the AVAILABLE vector: ");
         for(int i=0;i<m;i++){
             scanf("%d",&available[i]);
-            work[i]=available[i];
+            work[i]=available[i];       //available array redundant
         }
         if(choice==1){
             if(bankers(m,n,allocation,need,work,array)){
@@ -79,8 +81,6 @@ void main(){
             }
             else
                 printf("\nThe system is in UNSAFE STATE");
-            for(int i=0;i<m;i++)
-                work[i]=available[i];
         }
         else if(choice==2){
             int pid,request[m];
